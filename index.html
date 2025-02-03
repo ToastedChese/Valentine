@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💘</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffe6e6;
+            padding: 50px;
+            overflow: hidden;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            position: relative;
+        }
+        h1 {
+            color: #d63384;
+        }
+        button {
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+        }
+        button:hover {
+            background: #d63384;
+        }
+        #noButton {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #d63384;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: movePopup 10s infinite linear;
+        }
+        .popup h2 {
+            color: #d63384;
+        }
+        .popup button {
+            background: #d63384;
+            padding: 10px 15px;
+        }
+        @keyframes movePopup {
+            0% { transform: translate(-50%, -50%) translateX(0) translateY(0); }
+            25% { transform: translate(-50%, -50%) translateX(200px) translateY(100px); }
+            50% { transform: translate(-50%, -50%) translateX(-200px) translateY(200px); }
+            75% { transform: translate(-50%, -50%) translateX(100px) translateY(-150px); }
+            100% { transform: translate(-50%, -50%) translateX(0) translateY(0); }
+        }
+        /* Firework styles */
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ff6f61;
+            box-shadow: 0 0 10px 5px rgba(255, 111, 97, 0.6);
+            animation: fireworkAnimation 1s ease-out infinite;
+        }
+        @keyframes fireworkAnimation {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(2);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Will you be my Valentine? 💖</h1>
+        <button id="yesButton" onclick="showPopup()">Yes</button>
+        <button id="noButton" onmouseover="moveNoButton()" onclick="threatenUser()">No</button>
+        <p id="message"></p>
+    </div>
+
+    <div id="popup" class="popup">
+        <h2>YOU FOOL! 🤭</h2>
+        <p>Congratulations! 🎉 You have now signed a **lifelong contract** of being my **husband**! 💍</p>
+        <p>There is **NO EXIT CLAUSE.** 😈</p>
+        <p>Welcome to your **forever-ever-after.** 💖</p>
+        <button onclick="closePopup()">Guess I have no choice... 😅</button>
+    </div>
+
+    <script>
+        let noButton = document.getElementById("noButton");
+        let message = document.getElementById("message");
+        let threats = [
+            "Nice try. 😏",
+            "You can't escape me. 😈",
+            "Just say yes already! 😤",
+            "This isn't looking good for you... 😬",
+            "I hope you're good at running. 🏃‍♂️",
+            "You're only making this worse for yourself... 😆",
+            "Last warning... Click 'Yes' or suffer. 💀"
+        ];
+        let threatIndex = 0;
+        let moveCount = 0;
+
+        function moveNoButton() {
+            if (moveCount < 10) {
+                let x = Math.random() * 300 - 150; // Moves more wildly
+                let y = Math.random() * 300 - 150;
+                noButton.style.transform = `translate(${x}px, ${y}px)`;
+
+                // Show treat message each time the button moves
+                threatenUser();
+
+                moveCount++;
+            } else {
+                noButton.style.display = "none"; // Button disappears
+                message.innerText = "The 'No' button is gone. You have no choice. 😆";
+            }
+        }
+
+        function threatenUser() {
+            if (threatIndex < threats.length) {
+                message.innerText = threats[threatIndex];
+                threatIndex++;
+            } else {
+                message.innerText = "You've triggered the **self-destruct mode.** 😵";
+                noButton.style.display = "none"; // No more "No" button
+            }
+        }
+
+        function showPopup() {
+            document.getElementById("popup").style.display = "block";
+            message.innerHTML = "Yay! You said Yes! 😻💖"; // Happy cat emoji added here
+            
+            // Trigger fireworks
+            createFireworks();
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        // Function to create fireworks
+        function createFireworks() {
+            let numFireworks = 10;
+            for (let i = 0; i < numFireworks; i++) {
+                let firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = Math.random() * window.innerWidth + 'px';
+                firework.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(firework);
+
+                // Remove firework after animation
+                setTimeout(() => {
+                    firework.remove();
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
